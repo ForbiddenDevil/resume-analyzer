@@ -4,4 +4,3 @@ from django.db import models
 class Document(models.Model):
     uploaded_at = models.DateTimeField(auto_now_add=True)
     upload = models.FileField(upload_to='named_entity_recognition/uploads')
-    name = models.CharField(max_length=255)

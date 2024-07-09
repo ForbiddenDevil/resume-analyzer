@@ -1,54 +1,13 @@
 <!-- templates/index.html -->
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Resume Analyzer Dashboard</title>
-    <!-- Bootstrap CSS -->
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Custom CSS (optional) -->
-    <style>
-        body {
-            background-color: #f8f9fa;
-        }
-        .dashboard-header {
-            background-color: #343a40;
-            color: white;
-            padding: 1rem;
-        }
-        .dashboard-content {
-            margin-top: 2rem;
-        }
-        .dashboard-card {
-            transition: transform 0.2s;
-        }
-        .dashboard-card:hover {
-            transform: scale(1.05);
-        }
-    </style>
-</head>
-<body>
-    <header class="dashboard-header text-center">
-        <h1>Welcome to the Resume Analyzer</h1>
-    </header>
-    <div class="container dashboard-content">
-        <div class="row justify-content-center">
-            <div class="col-md-6">
-                <div class="card dashboard-card text-center">
-                    <div class="card-body">
-                        <h5 class="card-title">Named Entity Recognition</h5>
-                        <p class="card-text">Upload resumes and analyze named entities.</p>
-                        <a href="{% url 'upload_resume' %}" class="btn btn-primary">Go to Named Entity Recognition App</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+{% extends "base.html" %}
 
-    <!-- Bootstrap JS and dependencies -->
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-</body>
-</html>
+{% block title %}Home - Resume Analyzer{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <h1>Welcome to the Resume Analyzer</h1>
+        <p>Navigate using the menu on the left.</p>
+    </div>
+</div>
+{% endblock %}

@@ -39,6 +39,12 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "named_entity_recognition",
+    "candidate_matching",
+    "resume_ranking",
+    "resume_classification",
+    "automated_screening",
+    "resume_generation",
+    "resume_analytics"
 ]
 
 MIDDLEWARE = [
@@ -126,3 +132,9 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 NER_MEDIA_ROOT = BASE_DIR / 'named_entity_recognition/uploads'
 NER_MEDIA_URL = '/named_entity_recognition/uploads/'
+
+STATIC_URL = '/static/'
+
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, "static"),
+]

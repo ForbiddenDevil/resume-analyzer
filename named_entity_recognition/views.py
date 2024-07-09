@@ -1,6 +1,6 @@
 # named_entity_recognition/views.py
 from django.shortcuts import render, redirect
-from .forms import DocumentForm
+from . forms import DocumentForm
 
 def upload_resume(request):
     if request.method == 'POST':
@@ -14,3 +14,6 @@ def upload_resume(request):
 
 def upload_success(request):
     return render(request, 'named_entity_recognition/success.html')
+
+def named_entity_recognition(request):
+    return render(request, 'named_entity_recognition/named_entity_recognition.html')
