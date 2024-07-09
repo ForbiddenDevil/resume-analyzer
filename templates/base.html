@@ -1,4 +1,3 @@
-<!-- templates/base.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -13,10 +12,19 @@
             background-color: #f8f9fa;
         }
         .dashboard-header {
-            background-color: #343a40;
+            background-color: #00233c;
             color: white;
             padding: 1rem;
-            margin-left: 250px; /* Adjust to match sidebar width */
+            margin-left: 0px; /* Adjust to match sidebar width */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+        .dashboard-header .logo {
+            position: absolute;
+            left: 1rem;
+            height: 100px;
         }
         .dashboard-content {
             margin-top: 2rem;
@@ -25,9 +33,9 @@
         .breadcrumb-container {
             background-color: #343a40;
             color: white;
-            height: 100vh;
-            position: fixed;
-            top: 0;
+            height: 40vh;
+            position: absolute;
+            top: 88px;
             left: 0;
             width: 250px;
             overflow-x: hidden;
@@ -41,10 +49,34 @@
         .nav-link {
             color: white;
         }
+        /* Styling for the footer */
+        footer {
+            padding-bottom: 0px;
+            background: #f9f9f9;
+            border-bottom: 3px solid #00233C;
+            clear: both; /* Ensures footer stays at the bottom */
+            text-align: center; /* Centers content within footer */
+            width: 100%; /* Makes footer span full width */
+            position: fixed; /* Fixed positioning to stick at the bottom */
+            bottom: 0; /* Aligns footer at the bottom of the viewport */
+            left: 0; /* Aligns footer at the left side */
+        }
+        footer .footer-left {
+            float: left;
+            margin-top: 14px;
+        }
+        footer .footer-right {
+            float: right;
+        }
+        footer .copyright {
+            float: left;
+            margin-top: 14px;
+        }
     </style>
 </head>
 <body>
-    <div class="breadcrumb-container">
+    {% load static %}
+    <div class="breadcrumb-container" id="breadcrumbMenu">
         <nav class="nav flex-column">
             <a class="nav-link" href="{% url 'index' %}">Home</a>
             <a class="nav-link" href="{% url 'named_entity_recognition' %}">Named Entity Recognition</a>
@@ -57,7 +89,8 @@
         </nav>
     </div>
 
-    <header class="dashboard-header text-center">
+    <header class="dashboard-header">
+        <img src="{% static 'Teradata-Logo.png' %}" alt="Logo" class="logo">
         <h1>Welcome to the Resume Analyzer</h1>
     </header>
     <div class="container dashboard-content">
@@ -68,5 +101,17 @@
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-left">
+            ClearScape Analytics™
+        </div>
+        <div class="footer-right">
+            <div class="copyright">
+                Copyright © Teradata Corporation - 2023, 2024. All Rights Reserved
+            </div>
+        </div>
+    </footer>
 </body>
 </html>
