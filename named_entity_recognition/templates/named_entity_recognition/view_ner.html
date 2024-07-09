@@ -1,0 +1,14 @@
+<!-- templates/named_entity_recognition/success.html -->
+{% extends "base.html" %}
+
+{% block title %}Success - Resume Analyzer{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <h1>View NER</h1>
+        <p>Your resume has been processed successfully.</p>
+        <p>{{ param1 |safe }}</p>
+    </div>
+</div>
+{% endblock %}
