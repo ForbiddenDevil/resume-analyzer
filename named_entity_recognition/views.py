@@ -17,7 +17,7 @@ nlp = spacy.load("en_core_web_sm")
 
 def extract_ner_from_txt(sentence):
     doc = nlp(sentence)
-    html = displacy.render(doc, style="ent", page=True)
+    html = displacy.render(doc, style="ent", page=False)
     return html
 
 
