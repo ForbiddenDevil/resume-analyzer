@@ -10,6 +10,9 @@
     <style>
         body {
             background-color: #f8f9fa;
+            margin-bottom: 60px; /* Adjust margin to accommodate footer height */
+            position: relative;
+            min-height: 100vh; /* Ensures full height even with little content */
         }
         .dashboard-header {
             background-color: #00233c;
@@ -51,9 +54,7 @@
         }
         /* Styling for the footer */
         footer {
-            padding-bottom: 0px;
             background: #f9f9f9;
-            border-bottom: 3px solid #00233C;
             clear: both; /* Ensures footer stays at the bottom */
             text-align: center; /* Centers content within footer */
             width: 100%; /* Makes footer span full width */
@@ -63,14 +64,14 @@
         }
         footer .footer-left {
             float: left;
-            margin-top: 14px;
+            margin-top: 20px;
         }
         footer .footer-right {
             float: right;
+            margin-top: 20px;
         }
         footer .copyright {
             float: left;
-            margin-top: 14px;
         }
     </style>
 </head>

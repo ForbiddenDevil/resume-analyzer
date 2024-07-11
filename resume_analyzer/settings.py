@@ -133,6 +133,9 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 NER_MEDIA_ROOT = BASE_DIR / 'named_entity_recognition/uploads'
 NER_MEDIA_URL = '/named_entity_recognition/uploads/'
 
+RA_MEDIA_ROOT = BASE_DIR / 'resume_analytics/uploads'
+RA_MEDIA_URL = '/resume_analytics/uploads/'
+
 STATIC_URL = '/static/'
 
 STATICFILES_DIRS = [

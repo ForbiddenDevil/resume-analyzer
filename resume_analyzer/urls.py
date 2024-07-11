@@ -30,4 +30,8 @@ urlpatterns = [
     path('', include('automated_screening.urls')),
     path('', include('resume_generation.urls')),
     path('', include('resume_analytics.urls')),
-] + static(settings.NER_MEDIA_URL, document_root = settings.NER_MEDIA_ROOT)
+]
+
+# Serving static files from multiple directories
+urlpatterns += static(settings.NER_MEDIA_URL, document_root=settings.NER_MEDIA_ROOT)
+urlpatterns += static(settings.RA_MEDIA_URL, document_root=settings.RA_MEDIA_ROOT)
