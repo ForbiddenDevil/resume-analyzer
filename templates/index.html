@@ -3,95 +3,127 @@
 {% block title %}Home - Resume Analyzer{% endblock %}
 
 {% block content %}
-    <div class="jumbotron w-100" style="max-width: fit-content;">
-        <div class="row">
-            <!-- Named Entity Recognition Card -->
-            <div class="col-lg-4 mb-4">
-                <div class="card shadow-sm h-100 p-3">
-                    <div class="card-body">
-                        <h5 class="card-title">Named Entity Recognition</h5>
-                        <p class="card-text">Analyze resumes to identify and classify named entities such as names, skills, job titles, and organizations.</p>
-                        <a href="{% url 'named_entity_recognition' %}" class="stretched-link"></a>
-                    </div>
+<div class="jumbotron w-100" style="max-width: fit-content;">
+    <div class="row">
+        <!-- Named Entity Recognition Card -->
+        <div class="col-lg-4 mb-4">
+            <div class="card shadow-sm h-100 p-3">
+                <div class="card-body">
+                    <h5 class="card-title">Named Entity Recognition</h5>
+                    <p class="card-text">Analyze resumes to identify and classify named entities such as names, skills, job titles, and organizations.</p>
+                    <a href="{% url 'named_entity_recognition' %}" class="stretched-link"></a>
+                    <div class="tag-beta">Beta Version</div>
                 </div>
             </div>
+        </div>
 
-            <!-- Candidate Matching Card -->
-            <div class="col-lg-4 mb-4">
-                <div class="card shadow-sm h-100 p-3">
-                    <div class="card-body">
-                        <h5 class="card-title">Candidate Matching</h5>
-                        <p class="card-text">Match candidates to job descriptions based on their skills, experience, and qualifications.</p>
-                        <a href="{% url 'candidate_matching' %}" class="stretched-link"></a>
-                    </div>
+        <!-- Candidate Matching Card (Coming Soon) -->
+        <div class="col-lg-4 mb-4">
+            <div class="card shadow-sm h-100 p-3 faded">
+                <div class="card-body">
+                    <h5 class="card-title">Candidate Matching</h5>
+                    <p class="card-text">Match candidates to job descriptions based on their skills, experience, and qualifications.</p>
+                    <a href="#" class="stretched-link"></a>
+                    <div class="tag-coming-soon">Coming Soon</div>
                 </div>
             </div>
+        </div>
 
-            <!-- Candidate Ranking Card -->
-            <div class="col-lg-4 mb-4">
-                <div class="card shadow-sm h-100 p-3">
-                    <div class="card-body">
-                        <h5 class="card-title">Candidate Ranking</h5>
-                        <p class="card-text">Rank candidates according to their suitability for a job role using advanced algorithms.</p>
-                        <a href="{% url 'resume_ranking' %}" class="stretched-link"></a>
-                    </div>
+        <!-- Candidate Ranking Card (Coming Soon)-->
+        <div class="col-lg-4 mb-4">
+            <div class="card shadow-sm h-100 p-3 faded">
+                <div class="card-body">
+                    <h5 class="card-title">Candidate Ranking</h5>
+                    <p class="card-text">Rank candidates according to their suitability for a job role using advanced algorithms.</p>
+                    <!-- <a href="{% url 'resume_ranking' %}" class="stretched-link"></a> -->
+                    <a href="#" class="stretched-link"></a>
+                    <div class="tag-coming-soon">Coming Soon</div>
                 </div>
             </div>
+        </div>
 
-            <!-- Resume Classification Card -->
-            <div class="col-lg-4 mb-4">
-                <div class="card shadow-sm h-100 p-3">
-                    <div class="card-body">
-                        <h5 class="card-title">Resume Classification</h5>
-                        <p class="card-text">Classify resumes into predefined categories to facilitate easier management and analysis.</p>
-                        <a href="{% url 'resume_classification' %}" class="stretched-link"></a>
-                    </div>
+        <!-- Resume Classification Card (Coming Soon) -->
+        <div class="col-lg-4 mb-4">
+            <div class="card shadow-sm h-100 p-3 faded">
+                <div class="card-body">
+                    <h5 class="card-title">Resume Classification</h5>
+                    <p class="card-text">Classify resumes into predefined categories to facilitate easier management and analysis.</p>
+                    <a href="#" class="stretched-link"></a>
+                    <div class="tag-coming-soon">Coming Soon</div>
                 </div>
             </div>
+        </div>
 
-            <!-- Resume Analytics Card -->
-            <div class="col-lg-4 mb-4">
-                <div class="card shadow-sm h-100 p-3">
-                    <div class="card-body">
-                        <h5 class="card-title">Resume Analytics</h5>
-                        <p class="card-text">Generate detailed analytics and insights from resumes to help with decision-making.</p>
-                        <a href="{% url 'resume_analytics' %}" class="stretched-link"></a>
-                    </div>
+        <!-- Resume Analytics Card -->
+        <div class="col-lg-4 mb-4">
+            <div class="card shadow-sm h-100 p-3">
+                <div class="card-body">
+                    <h5 class="card-title">Resume Analytics</h5>
+                    <p class="card-text">Generate detailed analytics and insights from resumes to help with decision-making.</p>
+                    <a href="{% url 'resume_analytics' %}" class="stretched-link"></a>
+                    <div class="tag-beta">Beta Version</div>
                 </div>
             </div>
+        </div>
 
-            <!-- Automated Screening Card -->
-            <div class="col-lg-4 mb-4">
-                <div class="card shadow-sm h-100 p-3">
-                    <div class="card-body">
-                        <h5 class="card-title">Automated Screening</h5>
-                        <p class="card-text">Automatically screen resumes to shortlist the most promising candidates.</p>
-                        <a href="{% url 'automated_screening' %}" class="stretched-link"></a>
-                    </div>
+        <!-- Automated Screening Card (Coming Soon)-->
+        <div class="col-lg-4 mb-4">
+            <div class="card shadow-sm h-100 p-3 faded">
+                <div class="card-body">
+                    <h5 class="card-title">Automated Screening</h5>
+                    <p class="card-text">Automatically screen resumes to shortlist the most promising candidates.</p>
+                    <!-- <a href="{% url 'automated_screening' %}" class="stretched-link"></a> -->
+                    <a href="#" class="stretched-link"></a>
+                    <div class="tag-coming-soon">Coming Soon</div>
                 </div>
             </div>
+        </div>
 
-            <!-- Resume Generation Card -->
-            <div class="col-lg-4 mb-4">
-                <div class="card shadow-sm h-100 p-3">
-                    <div class="card-body">
-                        <h5 class="card-title">Resume Generation</h5>
-                        <p class="card-text">Create professional resumes based on candidate data and job requirements.</p>
-                        <a href="{% url 'resume_generation' %}" class="stretched-link"></a>
-                    </div>
+        <!-- Resume Generation Card (Coming Soon) -->
+        <div class="col-lg-4 mb-4">
+            <div class="card shadow-sm h-100 p-3 faded">
+                <div class="card-body">
+                    <h5 class="card-title">Resume Generation</h5>
+                    <p class="card-text">Create professional resumes based on candidate data and job requirements.</p>
+                    <a href="#" class="stretched-link"></a>
+                    <div class="tag-coming-soon">Coming Soon</div>
                 </div>
             </div>
         </div>
     </div>
+</div>
 
-    <style>
-        .card {
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
+<style>
+    .card {
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
 
-        .card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        }
-    </style>
+    .card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .faded {
+        opacity: 0.6; /* Faded effect for "Coming Soon" cards */
+    }
+
+    .tag-beta, .tag-coming-soon {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        padding: 6px 10px;
+        font-size: 12px;
+        font-weight: bold;
+        border-radius: 3px;
+        color: white;
+    }
+
+    .tag-beta {
+        background-color: #007bff; /* Blue background for Beta Version */
+    }
+
+    .tag-coming-soon {
+        background-color: #6c757d; /* Gray background for Coming Soon */
+    }
+</style>
 {% endblock %}
