@@ -1,0 +1,48 @@
+<!-- templates/candidate_matching/upload_resume.html -->
+{% extends "base.html" %}
+
+{% block title %}Upload Resume - Resume Analyzer{% endblock %}
+
+{% block content %}
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <h2>Upload Resumes and Job Description</h2>
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <h4>Job Description</h4>
+            {{ job_form.as_p }}
+            
+            <!-- <h4>Resumes</h4>
+            {{ resume_formset.management_form }}
+            <div id="resume-forms">
+            {% for form in resume_formset %}
+                <div class="resume-form">
+                    {{ form.as_p }}
+                </div>
+            {% endfor %}
+            </div>
+            <button type="button" id="add-resume">Add Another Resume</button> -->
+            <h4>Resumes</h4>
+            <input type="file" name="files" multiple>
+            <br><br>
+            <button type="submit">Submit</button>
+</div>
+<script>
+    $(document).ready(function() {
+        var formCount = {{ resume_formset.total_form_count }};
+        
+        $('#add-resume').click(function() {
+            var form = $('.resume-form:first').clone(true);
+            form.find('input').val('');
+            form.find('input[name]').each(function() {
+                var name = $(this).attr('name').replace('-0-', '-' + formCount + '-');
+                var id = 'id_' + name;
+                $(this).attr({'name': name, 'id': id});
+            });
+            $('#resume-forms').append(form);
+            $('#id_form-TOTAL_FORMS').val(++formCount);
+        });
+    });
+</script>
+{% endblock %}
