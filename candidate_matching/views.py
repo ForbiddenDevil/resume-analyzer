@@ -10,12 +10,15 @@ import os
 from django.core.files.storage import default_storage
 from django.core.files.base import ContentFile
 from openai import OpenAI
+from dotenv import load_dotenv
+
+load_dotenv()
 
 # -----------------------
 # -- Gen AI ------------
 # -----------------------
 
-client = OpenAI(api_key=os.environ.get("OPENAI_API_KEY"))
+client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
 
 def get_embedding(text, model="text-embedding-3-small"):
