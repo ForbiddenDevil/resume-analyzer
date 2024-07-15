@@ -3,3 +3,4 @@ spacy
 PyPDF
 openai
 textract
+python-dotenv
