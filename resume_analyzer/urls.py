@@ -25,7 +25,6 @@ urlpatterns = [
     path('', views.index, name='index'),
     path('', include('named_entity_recognition.urls')),
     path('', include('candidate_matching.urls')),
-    path('', include('resume_ranking.urls')),
     path('', include('resume_classification.urls')),
     path('', include('automated_screening.urls')),
     path('', include('resume_generation.urls')),
