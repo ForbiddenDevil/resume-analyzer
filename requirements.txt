@@ -2,3 +2,4 @@ Django
 spacy
 PyPDF
 openai
+textract
