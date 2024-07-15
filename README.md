@@ -40,12 +40,14 @@ The Resume Analyzer project aims to simplify the recruitment process by leveragi
 4. Install additional packages:
    ```bash
    python -m spacy download en_core_web_sm
-
 ## Usage
 
-1. Start the Django development server:
+1. Start the Django development server in Linux:
    ```bash
-   python manage.py runserver
+   run.sh
+2. For Windows:
+   ```bash 
+   run.bat
 3. Open your web browser and go to http://localhost:8000.
 4. Explore different features provided by navigating through the application.
 

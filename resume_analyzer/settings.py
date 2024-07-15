@@ -44,7 +44,7 @@ INSTALLED_APPS = [
     "resume_classification",
     "automated_screening",
     "resume_generation",
-    "resume_analytics"
+    "resume_analytics",
 ]
 
 MIDDLEWARE = [
@@ -62,7 +62,7 @@ ROOT_URLCONF = "resume_analyzer.urls"
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        'DIRS': [os.path.join(BASE_DIR, 'templates')],
+        "DIRS": [os.path.join(BASE_DIR, "templates")],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
@@ -130,13 +130,16 @@ STATIC_URL = "static/"
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
-NER_MEDIA_ROOT = BASE_DIR / 'named_entity_recognition/uploads'
-NER_MEDIA_URL = '/named_entity_recognition/uploads/'
+NER_MEDIA_ROOT = BASE_DIR / "named_entity_recognition/uploads"
+NER_MEDIA_URL = "/named_entity_recognition/uploads/"
 
-RA_MEDIA_ROOT = BASE_DIR / 'resume_analytics/uploads'
-RA_MEDIA_URL = '/resume_analytics/uploads/'
+RA_MEDIA_ROOT = BASE_DIR / "resume_analytics/uploads"
+RA_MEDIA_URL = "/resume_analytics/uploads/"
 
-STATIC_URL = '/static/'
+CM_MEDIA_ROOT = BASE_DIR / "candidate_matching/uploads"
+CM_MEDIA_URL = "/candidate_matching/uploads/"
+
+STATIC_URL = "/static/"
 
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "static"),

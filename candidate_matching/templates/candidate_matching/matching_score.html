@@ -1,0 +1,28 @@
+<!-- templates/named_entity_recognition/success.html -->
+{% extends "base.html" %}
+
+{% block title %}Success - Resume Analyzer{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <h1>View Matched resumes and score</h1>
+        <p>Your resume has been processed successfully.</p>
+        {% if param1 %}
+        {% for item in param1 %}
+            <div class="resume-item">
+                <b>Resume ID: {{ item.resume_id }}</b>
+                <!-- <b>Score: {{ item.score }}</b> -->
+                <div class="analysis">
+                    <b>Analysis:</b>
+                    <p>{{ item.analysis|linebreaks }}</p>
+                </div>
+                <hr>
+            </div>
+        {% endfor %}
+    {% else %}
+        <p>No resume data available.</p>
+    {% endif %}
+    </div>
+</div>
+{% endblock %}
