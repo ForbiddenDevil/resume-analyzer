@@ -70,13 +70,16 @@ def analyze_resume(resume: str, job_description: str) -> Dict[str, float]:
 
     analysis = response.choices[0].message.content
 
-    print("\n\n", "--" * 30)
-    print("analysis: ", analysis)
-    print("\n\n", "--" * 30)
     # Extract the score from the analysis
     score_line = [line for line in analysis.split("\n") if "Score:" in line][0]
     score = float(score_line.split(":")[1].strip())
-    return {"score": score, "analysis": analysis}
+
+    analysis = analysis.replace(score_line, "")
+    analysis = "\n".join([line for line in analysis.split("\n") if line.strip()])
+    return {
+        "score": score,
+        "analysis": analysis,
+    }
 
 
 def rank_resumes(resumes: List[str], job_description: str) -> List[Dict[str, any]]:
@@ -129,6 +132,7 @@ def upload_resume(request):
 
         for f in files:
             file_name = f.name
+            print("\n\n", f"file_name: {file_name}", "\n\n")
             path = default_storage.save(
                 os.path.join(settings.CM_MEDIA_ROOT, file_name), ContentFile(f.read())
             )
@@ -149,7 +153,19 @@ def upload_resume(request):
 
         ranked_results = rank_resumes(resumes, job_description)
 
-        print("\n\n", "RESULT", "\n\n")
+        # filter based on threshold
+        threshold_slider = request.POST.get("threshold_slider")
+        print("\n\n", f"threshold_slider: {threshold_slider}", "\n\n")
+
+        selected_resumes = [
+            i for i in ranked_results if i["score"] >= float(threshold_slider)
+        ]
+        rejected_resumes = [
+            i for i in ranked_results if i["score"] < float(threshold_slider)
+        ]
+
+        print("--" * 25)
+        print("\n\n", "Final RESULT", "\n\n")
         for result in ranked_results:
             print(f"Resume {result['resume_id']}:")
             print(f"Score: {result['score']}")
@@ -159,7 +175,7 @@ def upload_resume(request):
         return render(
             request=request,
             template_name="candidate_matching/matching_score.html",
-            context={"param1": ranked_results},
+            context={"param1": selected_resumes, "param2": rejected_resumes},
         )
     else:
         job_form = JobApplicationForm()
