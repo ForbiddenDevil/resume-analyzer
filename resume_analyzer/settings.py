@@ -40,7 +40,6 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "named_entity_recognition",
     "candidate_matching",
-    "resume_ranking",
     "resume_classification",
     "automated_screening",
     "resume_generation",

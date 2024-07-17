@@ -5,13 +5,15 @@ from django.core.files.storage import FileSystemStorage
 import os
 from resume_analyzer import settings
 from openai import OpenAI
+from dotenv import load_dotenv
+
+load_dotenv()
+client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
 def upload_document(request):
     if request.method == 'POST':
         form = DocumentForm(request.POST, request.FILES)
         if form.is_valid():
-            os.environ["OPENAI_API_KEY"] = form.cleaned_data['api_key']
-
             fs = FileSystemStorage()
             pdf_file = request.FILES["upload"]
             pdf_file_name = request.FILES["upload"].name
