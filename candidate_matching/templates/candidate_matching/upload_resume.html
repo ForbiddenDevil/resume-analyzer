@@ -5,44 +5,66 @@
 
 {% block content %}
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<style>
+    .bd-example {
+    position: relative;
+    padding: 1rem;
+    margin: 1rem -.75rem 0;
+    border: solid #dee2e6;
+    border-width: 1px
+}
+</style>
+
 <div class="row justify-content-center">
     <div class="col-md-6">
         <h2>Upload Resumes and Job Description</h2>
+        <div class="bd-example">
         <form method="post" enctype="multipart/form-data">
             {% csrf_token %}
-            <h4>Job Description</h4>
-            {{ job_form.as_p }}
-            
-            <!-- <h4>Resumes</h4>
-            {{ resume_formset.management_form }}
-            <div id="resume-forms">
-            {% for form in resume_formset %}
-                <div class="resume-form">
-                    {{ form.as_p }}
-                </div>
-            {% endfor %}
+            <div class="mb-3">
+                <label for="job_description" class="form-label">Job Description: </label>
+                <textarea class="form-control" name="job_description" id="job_description" rows="3" required></textarea>
             </div>
-            <button type="button" id="add-resume">Add Another Resume</button> -->
-            <h4>Resumes</h4>
-            <input type="file" name="files" multiple>
-            <br><br>
-            <button type="submit">Submit</button>
+          
+            <div class="mb-3">
+                <label for="files" class="form-label">Select Resumes:</label>
+                <input class="form-control" name="files" type="file" id="files" multiple required>
+            </div>
+            
+            <div class="mb-3">
+            <label for="threshold_slider" class="form-label">Min. percentage match:</label>
+            <input type="range" class="form-range" min="0.0" max="1.0" step="0.1" name="threshold_slider" id="threshold_slider" required>
+            <p>Value: <span id="rangeValue3"></span></p>
+            </div>
+            <div class="mb-3">
+            <button class="btn btn-primary" type="submit">Submit</button>
+            </div>
+            </form>
+        </div>
 </div>
 <script>
     $(document).ready(function() {
-        var formCount = {{ resume_formset.total_form_count }};
-        
-        $('#add-resume').click(function() {
-            var form = $('.resume-form:first').clone(true);
-            form.find('input').val('');
-            form.find('input[name]').each(function() {
-                var name = $(this).attr('name').replace('-0-', '-' + formCount + '-');
-                var id = 'id_' + name;
-                $(this).attr({'name': name, 'id': id});
-            });
-            $('#resume-forms').append(form);
-            $('#id_form-TOTAL_FORMS').val(++formCount);
-        });
+       console.log("page loaded")
+       // Get the range slider element
+        const slider = document.getElementById('threshold_slider');
+
+        // Create a new span element to display the value
+        const valueDisplay = document.getElementById('rangeValue3');
+        valueDisplay.textContent = valueDisplay
+        // valueDisplay.id = 'rangeValue';
+        // slider.parentNode.insertBefore(valueDisplay, slider.nextSibling);
+
+        // Function to update the displayed value
+        function updateValue() {
+            valueDisplay.textContent = slider.value;
+        }
+
+        // Initial value display
+        updateValue();
+
+        // Add event listener to update value on slider change
+        slider.addEventListener('input', updateValue);
     });
 </script>
 {% endblock %}

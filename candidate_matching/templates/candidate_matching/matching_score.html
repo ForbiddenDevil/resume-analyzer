@@ -4,25 +4,107 @@
 {% block title %}Success - Resume Analyzer{% endblock %}
 
 {% block content %}
+
+<style>
+  .bd-example {
+  position: relative;
+  padding: 1rem;
+  margin: 1rem -.75rem 0;
+  border: solid #dee2e6;
+  border-width: 1px
+}
+
+.table-margin {
+  margin: 1rem -.75rem 0;
+}
+</style>
 <div class="row justify-content-center">
     <div class="col-md-6">
         <h1>View Matched resumes and score</h1>
-        <p>Your resume has been processed successfully.</p>
+        <div class="bd-example">
+        <div class="lead">
+            Your resume has been processed successfully.
+        </div>
+
+          <!-- start selected resumes -->
+          <button type="button" class="btn btn-primary position-relative">
+            Selected Resumes
+            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-success">
+              {{  param1 |length }}
+              <span class="visually-hidden"></span>
+            </span>
+          </button>
+
         {% if param1 %}
-        {% for item in param1 %}
-            <div class="resume-item">
-                <b>Resume ID: {{ item.resume_id }}</b>
-                <!-- <b>Score: {{ item.score }}</b> -->
-                <div class="analysis">
-                    <b>Analysis:</b>
-                    <p>{{ item.analysis|linebreaks }}</p>
-                </div>
-                <hr>
-            </div>
-        {% endfor %}
-    {% else %}
-        <p>No resume data available.</p>
-    {% endif %}
+        <!-- <div class="alert alert-success" role="alert">
+          Selected Resumes
+        </div> -->
+        <table class="table table-hover table-margin">
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">Resume ID</th>
+                <th scope="col">Analysis</th>
+                <th scope="col">Score</th>
+              </tr>
+            </thead>
+            <tbody>
+            {% for item in param1 %}
+                <tr>
+                <th scope="row">1</th>
+                <td>{{ item.resume_id }}</td>
+                <td>{{ item.analysis|linebreaks }}</td>
+                <td><span class="badge bg-success">{{ item.score }}</span> </td>
+                </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+        {% else %}
+        <p class="lead">None of the resumes met the minimum matching percentage required for the position..</p>
+        {% endif %}
+        
+        <hr/>
+        <!-- start rejected resumes -->
+        <button type="button" class="btn btn-primary position-relative">
+          Rejected Resumes
+          <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-warning">
+            {{ param2 |length }}
+            <span class="visually-hidden"></span>
+          </span>
+        </button>
+
+        {% if param2 %}
+        <!-- <div class="alert alert-danger" role="alert">
+          Rejected Resumes
+        </div> -->
+
+    
+        <table class="table table-hover table-margin">
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">Resume ID</th>
+                <th scope="col">Analysis</th>
+                <th scope="col">Score</th>
+              </tr>
+            </thead>
+            <tbody>
+            {% for item in param2 %}
+                <tr>
+                <th scope="row">1</th>
+                <td>{{ item.resume_id }}</td>
+                <td>{{ item.analysis|linebreaks }}</td>
+                <td><span class="badge bg-warning text-dark">{{ item.score }}</span> </td>
+                </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+            {% else %}
+                    <p class="lead">All of the selected resumes passed the minimum matching score. None were rejected based on the job description.</p>
+            {% endif %}
+       
     </div>
+    </div>
+
 </div>
 {% endblock %}
