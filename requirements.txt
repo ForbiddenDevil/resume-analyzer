@@ -4,3 +4,4 @@ PyPDF
 openai
 textract
 python-dotenv
+pandas
