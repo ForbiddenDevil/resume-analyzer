@@ -4,4 +4,9 @@ PyPDF
 openai
 textract
 python-dotenv
+llama-index
+PyMuPDF
+llama-index-vector-stores-chroma
+llama-index-llms-openai
+llama-index-embeddings-openai
 pandas

@@ -1,0 +1,97 @@
+<!-- templates/chatbot.html -->
+{% extends "base.html" %}
+
+{% block title %}Chatbot - Resume Analyzer{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <h1>Chat with our AI</h1>
+        
+        <div class="chat-window">
+            <div id="chat-content" class="chat-content">
+                <!-- Chat messages will be dynamically added here -->
+            </div>
+            <div class="input-group mt-2">
+                <input type="text" id="chat-input" class="form-control" placeholder="Type your message here...">
+                <button id="send-btn" class="btn btn-primary">Send</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .chat-window {
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        padding: 15px;
+        height: 500px;
+        display: flex;
+        flex-direction: column;
+        background-color: #f8f9fa;
+    }
+    .chat-content {
+        flex: 1;
+        overflow-y: auto;
+        margin-bottom: 10px;
+        display: flex;
+        flex-direction: column;
+    }
+    .input-group {
+        display: flex;
+    }
+    .input-group input {
+        flex: 1;
+    }
+    .user-message, .bot-message {
+        margin: 5px 0;
+        padding: 10px;
+        border-radius: 5px;
+        max-width: 75%;
+        word-wrap: break-word;
+    }
+    .user-message {
+        align-self: flex-end;
+        background-color: #007bff;
+        color: white;
+    }
+    .bot-message {
+        align-self: flex-start;
+        background-color: #e9ecef;
+    }
+    .message-icon {
+        margin-right: 5px;
+        vertical-align: middle;
+        width: 24px; /* Set a fixed width for the icon */
+        height: 24px; /* Set a fixed height for the icon */
+    }
+</style>
+
+<script>
+    document.getElementById('send-btn').addEventListener('click', function() {
+        const input = document.getElementById('chat-input');
+        const message = input.value.trim();
+        if (message) {
+            const chatContent = document.getElementById('chat-content');
+            
+            chatContent.innerHTML += '{% load static %}<div class="user-message"><img src="{% static 'user.png' %}" class="message-icon"> ' + message + '</div>';
+            input.value = '';
+
+            fetch("{% url 'chatbot' %}", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "X-CSRFToken": "{{ csrf_token }}"
+                },
+                body: JSON.stringify({ message: message })
+            })
+            .then(response => response.json())
+            .then(data => {
+                chatContent.innerHTML += '{% load static %}<div class="bot-message"><img src="{% static 'chatbot.png' %}" class="message-icon"> ' + data.response + '</div>';
+                chatContent.scrollTop = chatContent.scrollHeight;
+            })
+            .catch(error => console.error('Error:', error));
+        }
+    });
+</script>
+{% endblock %}

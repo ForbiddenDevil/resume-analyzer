@@ -29,6 +29,8 @@ urlpatterns = [
     path('', include('automated_screening.urls')),
     path('', include('resume_generation.urls')),
     path('', include('resume_analytics.urls')),
+    path('chatbot/', views.chatbot_page, name='chatbot_page'),
+    path('api/chatbot/', views.chatbot, name='chatbot'),
 ]
 
 # Serving static files from multiple directories

@@ -1,0 +1,149 @@
+<!-- templates/chatbot.html -->
+{% extends "base.html" %}
+
+{% block title %}Chatbot - Resume Analyzer{% endblock %}
+
+{% block content %}
+<style>
+    .bd-example {
+    position: relative;
+    padding: 1rem;
+    margin: 1rem -.75rem 0;
+    border: solid #dee2e6;
+    border-width: 1px
+}
+.chat-input {
+    border-radius: 20px !important;
+}
+    .chat-window {
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        padding: 15px;
+        height: 500px;
+        display: flex;
+        flex-direction: column;
+        background-color: #f8f9fa;
+    }
+    .chat-content {
+        flex: 1;
+        overflow-y: auto;
+        margin-bottom: 10px;
+        display: flex;
+        flex-direction: column;
+    }
+    .input-group {
+        display: flex;
+    }
+    .input-group input {
+        flex: 1;
+    }
+    .user-message, .bot-message {
+        margin: 5px 0;
+        padding: 10px;
+        border-radius: 5px;
+        max-width: 75%;
+        word-wrap: break-word;
+    }
+    .user-message {
+        align-self: flex-end;
+        background-color: #343a40;
+        color: white;
+    }
+    .bot-message {
+        align-self: flex-start;
+        background-color: #e9ecef;
+    }
+    .message-icon {
+        margin-right: 5px;
+        vertical-align: middle;
+        width: 24px; /* Set a fixed width for the icon */
+        height: 24px; /* Set a fixed height for the icon */
+    }
+    .bot-message-meta {
+        margin: 10px;
+        font-style: oblique;
+        color: white;
+    }
+
+    .input-group .form-control {
+            margin-right: 10px;
+        }
+</style>
+
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="bd-example">
+        <h2>Upload source resumes</h2>
+
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+               
+                <div class="mb-3">
+                    <label for="files" class="form-label">Select Resumes:</label>
+                    <input class="form-control" name="files" type="file" id="files" multiple required>
+                </div>
+                
+                <div class="mb-3">
+                <button class="btn btn-primary" type="submit">Submit</button>
+                </div>
+            </form>
+            </div>
+
+            <div class="bd-example">
+            <h2>Chat with uploaded Resumes</h2>
+        <div class="chat-window">
+
+            <div id="chat-content" class="chat-content">
+                <!-- Chat messages will be dynamically added here -->
+            </div>
+            <form id="chatForm">
+            <div class="input-group mt-2">
+                <input type="text" id="chat-input" class="form-control chat-input" placeholder="Type your message here...">
+                <button id="send-btn" class="" style="border-radius: 9999px;">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="none" viewBox="0 0 32 32" class="icon-2xl"><path fill="currentColor" fill-rule="evenodd" d="M15.192 8.906a1.143 1.143 0 0 1 1.616 0l5.143 5.143a1.143 1.143 0 0 1-1.616 1.616l-3.192-3.192v9.813a1.143 1.143 0 0 1-2.286 0v-9.813l-3.192 3.192a1.143 1.143 0 1 1-1.616-1.616z" clip-rule="evenodd"></path></svg>
+                </button>
+            </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    document.getElementById('chatForm').addEventListener('submit', function(event) {
+        event.preventDefault();
+        const input = document.getElementById('chat-input');
+        const message = input.value.trim();
+        console.log(message)
+        if (message) {
+            const chatContent = document.getElementById('chat-content');
+            
+            chatContent.innerHTML += '{% load static %}<div class="user-message"><img src="{% static 'user.png' %}" class="message-icon"> ' + message + '</div>';
+            input.value = '';
+
+            fetch("{% url 'chatbot_api' %}", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "X-CSRFToken": "{{ csrf_token }}"
+                },
+                body: JSON.stringify({ message: message })
+            })
+            .then(response => response.json())
+            .then(data => {
+                // chatContent.innerHTML += '{% load static %}<div class="bot-message"><img src="{% static 'chatbot.png' %}" class="message-icon"> ' + data.response ;
+                
+                if (data.metadata.length > 0) {
+                    chatContent.innerHTML += '{% load static %}<div class="bot-message"><img src="{% static 'chatbot.png' %}" class="message-icon"> ' + data.response +'<div class="bot-message" role="alert">References:</div><div class="bot-message bot-message-meta badge bg-secondary">'+data.metadata+'</div></div>'
+                }else
+                {
+                    chatContent.innerHTML += '{% load static %}<div class="bot-message"><img src="{% static 'chatbot.png' %}" class="message-icon"> ' + data.response + '</div>' ;
+                }
+
+                chatContent.scrollTop = chatContent.scrollHeight;
+            })
+            .catch(error => console.error('Error:', error));
+        }
+    });
+</script>
+{% endblock %}
