@@ -41,7 +41,7 @@ INSTALLED_APPS = [
     "named_entity_recognition",
     "candidate_matching",
     "resume_classification",
-    "automated_screening",
+    "chatbot",
     "resume_generation",
     "resume_analytics",
 ]
@@ -140,6 +140,9 @@ CM_MEDIA_URL = "/candidate_matching/uploads/"
 
 RG_MEDIA_ROOT = BASE_DIR / "resume_generation/uploads"
 RG_MEDIA_URL = "/resume_generation/uploads/"
+
+CB_MEDIA_ROOT = BASE_DIR / "chatbot/uploads"
+CB_MEDIA_URL = "/chatbot/uploads/"
 
 STATIC_URL = "/static/"
 
