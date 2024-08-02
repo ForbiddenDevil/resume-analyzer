@@ -1,0 +1,47 @@
+<!-- templates/named_entity_recognition/success.html -->
+{% extends "base.html" %}
+
+{% block title %}Success - Resume Analyzer{% endblock %}
+
+{% block content %}
+
+<style>
+  .bd-example {
+  position: relative;
+  padding: 1rem;
+  margin: 1rem -.75rem 0;
+  border: solid #dee2e6;
+  border-width: 1px
+}
+
+.resume-display {
+  background-color: #84828f0d;border: 10px blue;padding: 10px;
+}
+</style>
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <h1>View generated resumes</h1>
+        <div class="bd-example">
+        <div class="lead">
+            Your resume has been processed successfully.
+        </div>
+<!-- pass generate resumes here -->
+      <div>
+        {% if param1 %}
+
+            {% for item in param1 %}
+            <div class="resume-display">
+                {{ item | safe}}
+              </div>
+                <hr/>
+            {% endfor %}
+        </div>
+      {% else %}
+      <p class="lead">None of the resumes met the minimum matching percentage required for the position..</p>
+      {% endif %}
+<!-- generate resume end here -->
+    </div>
+    </div>
+</div>
+
+    {% endblock %}

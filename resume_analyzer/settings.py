@@ -141,6 +141,10 @@ CM_MEDIA_URL = "/candidate_matching/uploads/"
 RC_MEDIA_ROOT = BASE_DIR / "resume_classification/uploads"
 RC_MEDIA_URL = "/resume_classification/uploads/"
 
+RG_MEDIA_ROOT = BASE_DIR / "resume_generation/uploads"
+RG_MEDIA_URL = "/resume_generation/uploads/"
+
+
 STATIC_URL = "/static/"
 
 STATICFILES_DIRS = [

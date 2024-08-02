@@ -3,5 +3,5 @@ from django.urls import path
 from . import views
 
 urlpatterns = [
-    path('resume_generation/', views.resume_generation, name='resume_generation'),
+    path("resume_generation/", views.upload_data, name="resume_generation"),
 ]
