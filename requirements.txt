@@ -5,3 +5,4 @@ openai
 textract
 python-dotenv
 pandas
+pdf2docx

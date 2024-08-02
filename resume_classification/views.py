@@ -4,15 +4,10 @@ from django.conf import settings
 from django.core.files.base import ContentFile
 from pdf2docx import Converter
 import os
-import re
-import spacy
-import string
 import textract
 import pandas as pd
 from teradataml import *
-import getpass
 
-from sklearn.feature_extraction.text import CountVectorizer
 
 import warnings
 warnings.filterwarnings('ignore')
