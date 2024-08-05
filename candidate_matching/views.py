@@ -5,7 +5,6 @@ from django.forms import modelformset_factory
 from .models import JobApplication, Resume
 from .forms import JobApplicationForm, ResumeFormSet
 from pypdf import PdfReader
-import textract
 import os
 from django.core.files.storage import default_storage
 from django.core.files.base import ContentFile
@@ -113,8 +112,6 @@ def extract_text_from_file(file_path):
     file_extension = os.path.splitext(file_path)[1].lower()
     if file_extension == ".pdf":
         return extract_text_from_pdf(file_path)
-    elif file_extension in [".doc", ".docx", ".txt", ".rtf"]:
-        return textract.process(file_path).decode("utf-8")
     else:
         return "Unsupported file format"
 

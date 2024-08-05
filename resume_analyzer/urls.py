@@ -26,7 +26,7 @@ urlpatterns = [
     path('', include('named_entity_recognition.urls')),
     path('', include('candidate_matching.urls')),
     path('', include('resume_classification.urls')),
-    path('', include('automated_screening.urls')),
+    path('', include('chatbot.urls')),
     path('', include('resume_generation.urls')),
     path('', include('resume_analytics.urls')),
 ]
