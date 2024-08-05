@@ -4,14 +4,26 @@
 {% block title %}Upload Resume - Resume Analyzer{% endblock %}
 
 {% block content %}
+
+<style>
+    .bd-example {
+    position: relative;
+    padding: 1rem;
+    margin: 1rem -.75rem 0;
+    border: solid #dee2e6;
+    border-width: 1px
+}
+</style>
 <div class="row justify-content-center">
     <div class="col-md-8">
+       <div class="bd-example">
         <h1>Upload Resume</h1>
         <form method="post" enctype="multipart/form-data">
             {% csrf_token %}
             {{ form.as_p }}
             <button type="submit" class="btn btn-primary">Upload</button>
         </form>
+       </div>
     </div>
 </div>
 {% endblock %}

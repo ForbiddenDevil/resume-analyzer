@@ -16,6 +16,7 @@ from django.core.files.storage import default_storage
 from llama_index.vector_stores.chroma import ChromaVectorStore
 from llama_index.core.node_parser import SentenceSplitter
 from llama_index.core.tools import FunctionTool
+from llama_index.core import PromptTemplate
 from llama_index.core.vector_stores import MetadataFilters, FilterCondition
 from typing import List, Optional
 from llama_index.agent.openai import OpenAIAgent
@@ -116,14 +117,13 @@ def delete_directory(path):
 
 # Create your views here.
 def chatbot(request):
-    print('A')
     if request.method == "POST":
-        print('B')
         files = request.FILES.getlist("files")
         file_list = []
 
         # delete the existing directory
         delete_directory(settings.CB_MEDIA_ROOT)
+        delete_directory(settings.CB_INDX_MEDIA_ROOT)
 
         for f in files:
             file_name = f.name
@@ -151,7 +151,15 @@ def chatbot_api(request):
         )
 
         initial_tools = [vector_query_tool]
-        agent = OpenAIAgent.from_tools(initial_tools, verbose=True, system_prompt="You are a helpful AI assistant. Always return the response in proper markdown format.")
+        custom_prompt = PromptTemplate(
+            "Response should be with proper HTML tags like <li>, <b> etc. Answer the following question: {query}"
+        )
+        agent = OpenAIAgent.from_tools(
+            initial_tools,
+            verbose=True,
+            system_prompt="You are a helpful AI assistant. Response should be with proper HTML tags like <li>, <b> etc.",
+            custom_prompt=custom_prompt,
+        )
         response = agent.chat(user_message)
 
         print(f"\n\n response: {response}")
@@ -161,9 +169,9 @@ def chatbot_api(request):
         metadata = []
         grouped_metadata = defaultdict(list)
         for f in metadata_dict.values():
-            file_name = f['file_name']
-            page_label = f['page_label']
-    
+            file_name = f["file_name"]
+            page_label = f["page_label"]
+
             # Add the page label to the list for this file name
             grouped_metadata[file_name].append(page_label)
             # metadata.append(f"File name: {f['file_name']} - {f['page_label']}")
