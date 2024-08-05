@@ -23,6 +23,7 @@ from llama_index.embeddings.openai import OpenAIEmbedding
 import chromadb
 import shutil
 import os
+from collections import defaultdict
 
 load_dotenv()
 
@@ -114,14 +115,15 @@ def delete_directory(path):
 
 
 # Create your views here.
-def chatbot_page(request):
+def chatbot(request):
+    print('A')
     if request.method == "POST":
-
+        print('B')
         files = request.FILES.getlist("files")
         file_list = []
 
         # delete the existing directory
-        # delete_directory(settings.CB_MEDIA_ROOT)
+        delete_directory(settings.CB_MEDIA_ROOT)
 
         for f in files:
             file_name = f.name
@@ -133,8 +135,10 @@ def chatbot_page(request):
 
         print("\n\n Now generating indexes...")
         create_indexing()
+    else:
+        pass
 
-    return render(request, "chatbot/chatbot.html")
+    return render(request, "chatbot/chatbot_ui.html")
 
 
 @csrf_exempt
@@ -147,14 +151,29 @@ def chatbot_api(request):
         )
 
         initial_tools = [vector_query_tool]
-        agent = OpenAIAgent.from_tools(initial_tools, verbose=True)
+        agent = OpenAIAgent.from_tools(initial_tools, verbose=True, system_prompt="You are a helpful AI assistant. Always return the response in proper markdown format.")
         response = agent.chat(user_message)
+
+        print(f"\n\n response: {response}")
         metadata_dict = (
             response.sources[0].raw_output.metadata if len(response.sources) > 0 else {}
         )
         metadata = []
+        grouped_metadata = defaultdict(list)
         for f in metadata_dict.values():
-            metadata.append(f"File name: {f['file_name']} - {f['page_label']}")
+            file_name = f['file_name']
+            page_label = f['page_label']
+    
+            # Add the page label to the list for this file name
+            grouped_metadata[file_name].append(page_label)
+            # metadata.append(f"File name: {f['file_name']} - {f['page_label']}")
+
+        # Create the final result
+        # result = []
+        for file_name, page_labels in grouped_metadata.items():
+            # Join the page labels with commas
+            pages = ", ".join(page_labels)
+            metadata.append(f"File name: {file_name} - Pages: {pages}")
 
         return JsonResponse({"response": response.response, "metadata": metadata})
     else:
