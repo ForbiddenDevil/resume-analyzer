@@ -2,11 +2,11 @@ Django
 spacy
 PyPDF
 openai
-textract
 python-dotenv
+pandas
+pdf2docx
 llama-index
 PyMuPDF
 llama-index-vector-stores-chroma
 llama-index-llms-openai
 llama-index-embeddings-openai
-pandas

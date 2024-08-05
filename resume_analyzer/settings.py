@@ -138,6 +138,9 @@ RA_MEDIA_URL = "/resume_analytics/uploads/"
 CM_MEDIA_ROOT = BASE_DIR / "candidate_matching/uploads"
 CM_MEDIA_URL = "/candidate_matching/uploads/"
 
+RC_MEDIA_ROOT = BASE_DIR / "resume_classification/uploads"
+RC_MEDIA_URL = "/resume_classification/uploads/"
+
 RG_MEDIA_ROOT = BASE_DIR / "resume_generation/uploads"
 RG_MEDIA_URL = "/resume_generation/uploads/"
 

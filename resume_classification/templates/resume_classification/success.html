@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block title %}Success - Resume Classification{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8" style="background-color: #f5f5f5; padding: 20px; border-radius: 5px;">
+        <h1>Resume Classification Results</h1>
+        
+        <!-- Summary Section -->
+        <div class="mb-4">
+            <h3>Predictions</h3>
+            <p>{{ param1 | safe }}</p>
+                       
+        </div>
+        
+        <!-- Metrics Section -->
+        <div class="mb-4">
+            <h3>Classification Metrics</h3>
+            <p>{{ param2 | safe }}</p>
+                       
+        </div>
+       
+    </div>
+</div>
+{% endblock %}
