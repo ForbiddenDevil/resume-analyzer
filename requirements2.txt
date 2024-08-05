@@ -8,3 +8,4 @@ llama_index
 llama-index-vector-stores-chroma
 llama-index-llms-openai
 llama-index-embeddings-openai
+pdf2docx
