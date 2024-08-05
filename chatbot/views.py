@@ -117,9 +117,7 @@ def delete_directory(path):
 
 # Create your views here.
 def chatbot(request):
-    print("A")
     if request.method == "POST":
-        print("B")
         files = request.FILES.getlist("files")
         file_list = []
 
