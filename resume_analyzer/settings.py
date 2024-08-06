@@ -147,6 +147,9 @@ RG_MEDIA_URL = "/resume_generation/uploads/"
 CB_MEDIA_ROOT = BASE_DIR / "chatbot/uploads"
 CB_MEDIA_URL = "/chatbot/uploads/"
 
+CB_INDX_MEDIA_ROOT = BASE_DIR / "chatbot/index"
+CB_INDX_MEDIA_URL = "/chatbot/index/"
+
 STATIC_URL = "/static/"
 
 STATICFILES_DIRS = [

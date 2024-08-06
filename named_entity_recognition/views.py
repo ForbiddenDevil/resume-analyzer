@@ -21,7 +21,7 @@ def extract_ner_from_txt(sentence):
     return html
 
 
-def upload_resume(request):
+def named_entity_recognition(request):
     if request.method == "POST":
         form = DocumentForm(request.POST, request.FILES)
         print("request.FILES1: ", request.FILES["upload"])
@@ -65,10 +65,6 @@ def upload_resume(request):
 def upload_success(request):
     print("request.FILES", request.FILES)
     return render(request, "named_entity_recognition/success.html")
-
-
-def named_entity_recognition(request):
-    return render(request, "named_entity_recognition/named_entity_recognition.html")
 
 
 def view_ner(request):
