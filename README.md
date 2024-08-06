@@ -22,6 +22,7 @@ The Resume Analyzer project aims to simplify the recruitment process by leveragi
 - **Resume Classification**: Classify resumes into predefined categories.
 - **Resume Analytics**: Generate detailed analytics and insights from resumes.
 - **Resume Generation**: Create professional resumes based on candidate data.
+- **Chat with Resumes**: You can quickly ask questions on set of resumes like Which resumes have SQL skills?
 
 ## Installation
 
