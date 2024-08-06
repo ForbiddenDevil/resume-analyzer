@@ -21,7 +21,6 @@ The Resume Analyzer project aims to simplify the recruitment process by leveragi
 - **Candidate Ranking**: Rank candidates according to suitability for job roles.
 - **Resume Classification**: Classify resumes into predefined categories.
 - **Resume Analytics**: Generate detailed analytics and insights from resumes.
-- **Automated Screening**: Automatically screen resumes to shortlist candidates.
 - **Resume Generation**: Create professional resumes based on candidate data.
 
 ## Installation
@@ -40,6 +39,9 @@ The Resume Analyzer project aims to simplify the recruitment process by leveragi
 4. Install additional packages:
    ```bash
    python -m spacy download en_core_web_sm
+5. Add OpenAI key, Open .env file and enter your OpenAI Key:
+   ```bash
+   OPENAI_API_KEY: 'xxx'
 ## Usage
 
 1. Start the Django development server in Linux:
