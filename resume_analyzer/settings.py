@@ -54,6 +54,7 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    "resume_analyzer.middleware.LoginRequiredMiddleware",
 ]
 
 ROOT_URLCONF = "resume_analyzer.urls"
@@ -155,3 +156,15 @@ STATIC_URL = "/static/"
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "static"),
 ]
+
+AUTHENTICATION_BACKENDS = [
+    'resume_analyzer.authentication_backends.CustomBackend',  # Path to your custom backend
+    'django.contrib.auth.backends.ModelBackend',    # Default backend (optional)
+]
+
+LOGIN_URL = '/login/'
+LOGIN_REDIRECT_URL = '/'
+LOGOUT_REDIRECT_URL = '/login/'
+
+# List of URLs that should be accessible without login
+EXEMPT_URLS = ['/login/']
