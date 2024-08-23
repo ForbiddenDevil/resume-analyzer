@@ -10,6 +10,7 @@ import json
 
 load_dotenv()
 
+
 def generate_resume(client, personal_info, professional_info):
     # Combine personal and professional info into a prompt
     prompt = f"""Generate a professional resume based on the following information:
@@ -44,7 +45,7 @@ def generate_resume(client, personal_info, professional_info):
     return response.choices[0].message.content.strip()
 
 
-def generate_resume_from_table(df):
+def generate_resume_from_table(client, df):
     final_resumes = []
     for i, row in df.iterrows():
         print("\n", "-" * 25)
@@ -68,7 +69,7 @@ def generate_resume_from_table(df):
 def upload_data(request):
     if os.getenv("OPENAI_API_KEY") is None:
         return redirect("set_openai_api_key")
-    
+
     client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
     if request.method == "POST":
@@ -90,7 +91,7 @@ def upload_data(request):
                 df = pd.read_csv(tmp_file)
                 # print(df.head())
 
-                final_resumes = generate_resume_from_table(df=df)
+                final_resumes = generate_resume_from_table(client=client, df=df)
 
                 print("\n\n total resumes: ", len(final_resumes), "\n\n")
                 print("resume generated..")
@@ -114,7 +115,7 @@ def upload_data(request):
                 "Awards": request.POST.get("awards"),
             }
             df = pd.DataFrame(data=data_dict, index=[0])
-            final_resumes = generate_resume_from_table(client, df=df)
+            final_resumes = generate_resume_from_table(client=client, df=df)
             print("resume generated..")
 
         return render(
