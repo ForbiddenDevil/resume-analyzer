@@ -1,5 +1,5 @@
 from django.conf import settings
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from openai import OpenAI
 from dotenv import load_dotenv
 import os
@@ -10,14 +10,7 @@ import json
 
 load_dotenv()
 
-# -----------------------
-# -- Gen AI ------------
-# -----------------------
-
-client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
-
-
-def generate_resume(personal_info, professional_info):
+def generate_resume(client, personal_info, professional_info):
     # Combine personal and professional info into a prompt
     prompt = f"""Generate a professional resume based on the following information:
 
@@ -60,7 +53,7 @@ def generate_resume_from_table(df):
         professional_info = json.loads(row[6:].to_json(orient="index"))
 
         # Generate the resume
-        resume = generate_resume(personal_info, professional_info)
+        resume = generate_resume(client, personal_info, professional_info)
         resume = resume.replace("```html", "").replace("```", "")
         print("Generated resume for: ", row["Name"])
         # Print the generated resume
@@ -73,6 +66,11 @@ def generate_resume_from_table(df):
 #  upload data
 # -----------------------
 def upload_data(request):
+    if os.getenv("OPENAI_API_KEY") is None:
+        return redirect("set_openai_api_key")
+    
+    client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
+
     if request.method == "POST":
 
         files = request.FILES.getlist("files")
@@ -116,7 +114,7 @@ def upload_data(request):
                 "Awards": request.POST.get("awards"),
             }
             df = pd.DataFrame(data=data_dict, index=[0])
-            final_resumes = generate_resume_from_table(df=df)
+            final_resumes = generate_resume_from_table(client, df=df)
             print("resume generated..")
 
         return render(

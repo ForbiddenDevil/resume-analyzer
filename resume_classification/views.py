@@ -7,12 +7,12 @@ from pdf2docx import Converter
 import os
 import pandas as pd
 from teradataml import *
+from django.contrib.auth.models import User
 
 
 import warnings
 
 warnings.filterwarnings("ignore")
-
 
 def convertpdftodoc(files):
     for file in files:
@@ -331,6 +331,16 @@ def evaluatemodel_sql(final_predict_df):
 def resume_classification(request):
     print(request.method)
     if request.method == "POST":
+        user = request.user
+        try:
+            user_credential = User.objects.get(user=user)
+            username = user_credential.username
+            password = user_credential.password
+            # Use these credentials as needed
+        except User.DoesNotExist:
+            # Handle the case where credentials do not exist
+            pass
+
         model_id = request.POST.get("model_id")
         print(model_id)
         msg = ""

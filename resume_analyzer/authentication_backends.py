@@ -18,6 +18,7 @@ class CustomBackend(BaseBackend):
             user, created = User.objects.get_or_create(username=username)
             if created:
                 # Set additional user fields if needed
+                user.username = username
                 user.password = make_password(password)  # Optional: store hashed password
                 user.save()
             return user  # Authentication successful

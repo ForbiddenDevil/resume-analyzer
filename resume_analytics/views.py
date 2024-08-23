@@ -8,9 +8,10 @@ from openai import OpenAI
 from dotenv import load_dotenv
 
 load_dotenv()
-client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
 def upload_document(request):
+    if os.getenv("OPENAI_API_KEY") is None:
+        return redirect("set_openai_api_key")
     if request.method == 'POST':
         form = DocumentForm(request.POST, request.FILES)
         if form.is_valid():
@@ -26,7 +27,7 @@ def upload_document(request):
             for page in reader.pages:
                 text += page.extract_text()
 
-            client = OpenAI()
+            client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
             summary_result = client.chat.completions.create(
                 model="gpt-3.5-turbo",

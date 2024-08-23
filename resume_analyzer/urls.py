@@ -23,6 +23,7 @@ from . import views
 urlpatterns = [
     path('login/', views.custom_login_view, name='login'),
     path('logout/', views.custom_logout_view, name='logout'),
+    path('set-api-key/', views.set_openai_api_key, name='set_openai_api_key'),
     path("admin/", admin.site.urls),
     path('', views.index, name='index'),
     path('', include('named_entity_recognition.urls')),
