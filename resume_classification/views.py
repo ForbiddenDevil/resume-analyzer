@@ -44,7 +44,7 @@ def extracttextfromdoc(directory1, category):
             for para in doc.paragraphs:
                 fullText.append(para.text)
             print("full txt: ", "\n".join(fullText))
-            file_path1.append("\n".join(fullText))
+            file_path1.append("\n".join(fullText).encode('ascii',errors='ignore').decode('utf-8'))
             # file_path1.append((textract.process(os.path.join(directory1, i))).decode('utf-8'))
             category1.append(category)
             ResID1.append(i)
