@@ -40,7 +40,7 @@
             position: absolute;
             top: 88px;
             left: 0;
-            width: 250px;
+            width: 170px;
             overflow-x: hidden;
         }
         .breadcrumb a {
@@ -86,7 +86,20 @@
             <a class="nav-link" href="{% url 'resume_analytics' %}">Resume Analytics</a>
             <a class="nav-link" href="{% url 'chatbot' %}">Chatbot</a>
             <a class="nav-link" href="{% url 'resume_generation' %}">Resume Generation</a>
+            <a class="nav-link" href="{% url 'set_openai_api_key' %}">Set OpenAI API Key</a>
         </nav>
+        {% if user.is_authenticated %}
+                    <li class="nav-item">
+                        <form action="{% url 'logout' %}" method="post" style="display:inline;">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-link nav-link">Logout</button>
+                        </form>
+                    </li>
+                {% else %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'login' %}">Login</a>
+                    </li>
+        {% endif %}
     </div>
 
     <header class="dashboard-header">

@@ -1,6 +1,6 @@
 import time
 from django.conf import settings
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 import os
 from dotenv import load_dotenv
 from django.http import JsonResponse
@@ -117,6 +117,9 @@ def delete_directory(path):
 
 # Create your views here.
 def chatbot(request):
+    if os.getenv("OPENAI_API_KEY") is None:
+        return redirect("set_openai_api_key")
+
     if request.method == "POST":
         files = request.FILES.getlist("files")
         file_list = []

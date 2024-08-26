@@ -7,12 +7,12 @@ from pdf2docx import Converter
 import os
 import pandas as pd
 from teradataml import *
+from django.contrib.auth.models import User
 
 
 import warnings
 
 warnings.filterwarnings("ignore")
-
 
 def convertpdftodoc(files):
     for file in files:
@@ -43,8 +43,8 @@ def extracttextfromdoc(directory1, category):
             fullText = []
             for para in doc.paragraphs:
                 fullText.append(para.text)
-            print("full txt: ", "\n".join(fullText))
-            file_path1.append("\n".join(fullText))
+            # print("full txt: ", "\n".join(fullText))
+            file_path1.append("\n".join(fullText).encode('ascii',errors='ignore').decode('utf-8'))
             # file_path1.append((textract.process(os.path.join(directory1, i))).decode('utf-8'))
             category1.append(category)
             ResID1.append(i)
@@ -84,8 +84,15 @@ def connectvantage(resume_data, host, username, password):
     print("ConnectionSuccessful :%s", eng)
     resume_data.to_sql("resume_data_test", eng, if_exists="append", index=False)
     resume_data_test = DataFrame("resume_data_test")
+    qry="select tablename from dbc.tablesV where databasename = 'demo_user' and tablename = 'resume_category_model_tb';"
+    df = DataFrame.from_query(qry).to_pandas()
+    if df.empty:
+        model_table_exists = 0
+    else:
+        model_table_exists = 1
 
-    return resume_data_test
+    
+    return resume_data_test,model_table_exists
 
 
 def connectandloaddatafromcsv(host, username, password):
@@ -270,7 +277,7 @@ def classifyresume_sql(tokenize_df):
         execute_sql(qry)
 
     qry = """CREATE MULTISET TABLE final_predictions AS (
-    SELECT ResID, category,prediction, prob
+    SELECT ResID, cast(category as VARCHAR(100)) as category,prediction, prob
         FROM resume_category_predict 
         Qualify prob = max(prob) over(partition by ResID)
     ) WITH DATA;"""
@@ -331,62 +338,85 @@ def evaluatemodel_sql(final_predict_df):
 def resume_classification(request):
     print(request.method)
     if request.method == "POST":
-        model_id = request.POST.get("model_id")
-        print(model_id)
-        msg = ""
-        if model_id == "1":
-            print("Train")
-            host = request.POST.get("host")
-            username = request.POST.get("username")
-            password = request.POST.get("password")
-            print("Connect to Vantage and Upload data for model training")
-            raw_df = connectandloaddatafromcsv(host, username, password)
-            tokenize_df_train = datapreprocess(raw_df)
-            msg = buildmodel(raw_df)
-            return render(
-                request=request,
-                template_name="resume_classification/success_train.html",
-                context={"param1": msg},
-            )
-        elif model_id == "2":
-            files = request.FILES.getlist("files")
-            category1 = request.POST.get("category")
-            host = request.POST.get("host")
-            username = request.POST.get("username")
-            password = request.POST.get("password")
+        user = request.user
+        
+        try:
+            user_credential = User.objects.get(username=user)
+            username = user_credential.username
+            # password = user_credential.password
+            # Use these credentials as needed
+        except User.DoesNotExist:
+            # Handle the case where credentials do not exist
+            pass
 
-            convertpdftodoc(files)
-            directory1 = os.path.join(settings.RC_MEDIA_ROOT)
-            print(os.listdir(directory1))
-            print(category1)
-            file_path1, category1, ResID1 = extracttextfromdoc(directory1, category1)
-            data1 = pd.DataFrame(data=file_path1, columns=["Resume_str"])
-            data1["category"] = category1
-            data1["ResID"] = ResID1
-            # print(data1)
-            resume_data = cleandata(data1)
-            resume_data_test = connectvantage(resume_data, host, username, password)
-            tokenize_df = datapreprocess(resume_data_test)
-            # print(tokenize_df)
-            # final_predict_df = classifyresume(tokenize_df)
-            final_predict_df = classifyresume_sql(tokenize_df)
-            print(final_predict_df)
-            eval_df = evaluatemodel_sql(final_predict_df)
-            print(eval_df)
-            df = final_predict_df.to_pandas()
-            html_table = df.to_html(index=False)
-            eval_df_pd = eval_df.to_pandas()
-            html_table_metrics = eval_df_pd.to_html(index=False)
+        # model_id = request.POST.get("model_id")
+        # print(model_id)
+        # msg = ""
+        # if model_id == "1":
+        #     print("Train")
+        #     host = request.POST.get("host")
+        #     username = request.POST.get("username")
+        #     password = request.POST.get("password")
+        #     print("Connect to Vantage and Upload data for model training")
+        #     raw_df = connectandloaddatafromcsv(host, username, password)
+        #     tokenize_df_train = datapreprocess(raw_df)
+        #     msg = buildmodel(raw_df)
+        #     return render(
+        #         request=request,
+        #         template_name="resume_classification/success_train.html",
+        #         context={"param1": msg},
+        #     )
+        # elif model_id == "2":
+        files = request.FILES.getlist("files")
+        category1 = request.POST.get("category")
+        host = request.POST.get("host")
+        # username = request.POST.get("username")
+        password = request.POST.get("password")
+        # print('%'*50, password)
+        convertpdftodoc(files)
+        directory1 = os.path.join(settings.RC_MEDIA_ROOT)
+        print(os.listdir(directory1))
+        print(category1)
+        file_path1, category1, ResID1 = extracttextfromdoc(directory1, category1)
+        data1 = pd.DataFrame(data=file_path1, columns=["Resume_str"])
+        data1["category"] = category1
+        data1["ResID"] = ResID1
+        # print(data1)
+        resume_data = cleandata(data1)
+        # print('*'*50)
+        # print(host, username, password)
+        # print('*'*50)
+        resume_data_test,model_table_exists  = connectvantage(resume_data, host, username, password)
+        if model_table_exists == 0:
+            msg = "Model table does not exists. Please return to the notebook and Train the model"
             removeUploadedfiles(directory1)
             return render(
-                request=request,
-                template_name="resume_classification/success.html",
-                context={"param1": html_table, "param2": html_table_metrics},
-            )
-
+            request=request,
+            template_name="resume_classification/fail.html",
+            context={"param1": msg}, )
         else:
-            # Handle case where no model is selected
-            print("Please click on either Train or Predict")
+            pass
+        tokenize_df = datapreprocess(resume_data_test)
+        # print(tokenize_df)
+        # final_predict_df = classifyresume(tokenize_df)
+        final_predict_df = classifyresume_sql(tokenize_df)
+        # print(final_predict_df)
+        eval_df = evaluatemodel_sql(final_predict_df)
+        # print(eval_df)
+        df = final_predict_df.to_pandas()
+        html_table = df.to_html(index=False)
+        eval_df_pd = eval_df.to_pandas()
+        html_table_metrics = eval_df_pd.to_html(index=False)
+        removeUploadedfiles(directory1)
+        return render(
+            request=request,
+            template_name="resume_classification/success.html",
+            context={"param1": html_table, "param2": html_table_metrics},
+        )
+
+        # else:
+        #     # Handle case where no model is selected
+        #     print("Please click on either Train or Predict")
 
     else:
         pass

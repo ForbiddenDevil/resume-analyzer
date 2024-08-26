@@ -13,16 +13,9 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-# -----------------------
-# -- Gen AI ------------
-# -----------------------
-
-client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
-
-
-def get_embedding(text, model="text-embedding-3-small"):
-    text = text.replace("\n", " ")
-    return client.embeddings.create(input=[text], model=model).data[0].embedding
+# def get_embedding(text, model="text-embedding-3-small"):
+#     text = text.replace("\n", " ")
+#     return client.embeddings.create(input=[text], model=model).data[0].embedding
 
 
 def cosine_similarity(vec1: List[float], vec2: List[float]) -> float:
@@ -32,7 +25,7 @@ def cosine_similarity(vec1: List[float], vec2: List[float]) -> float:
     return dot_product / (magnitude1 * magnitude2)
 
 
-def analyze_resume(resume: str, job_description: str) -> Dict[str, float]:
+def analyze_resume(client, resume: str, job_description: str) -> Dict[str, float]:
     prompt = f"""Resume:
 
     {resume}
@@ -81,11 +74,11 @@ def analyze_resume(resume: str, job_description: str) -> Dict[str, float]:
     }
 
 
-def rank_resumes(resumes: List[str], job_description: str) -> List[Dict[str, any]]:
+def rank_resumes(client, resumes: List[str], job_description: str) -> List[Dict[str, any]]:
     ranked_resumes = []
     for i, resume in enumerate(resumes):
 
-        result = analyze_resume(resume["txt_content"][0], job_description)
+        result = analyze_resume(client, resume["txt_content"][0], job_description)
         ranked_resumes.append(
             {
                 "resume_id": resume["file_name"],
@@ -115,13 +108,10 @@ def extract_text_from_file(file_path):
     else:
         return "Unsupported file format"
 
-
-# -------------------------------------------
-# -------------------------------------------
-# -------------------------------------------
-
-
 def upload_resume(request):
+    if os.getenv("OPENAI_API_KEY") is None:
+        return redirect("set_openai_api_key")
+    client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
     if request.method == "POST":
 
         files = request.FILES.getlist("files")
@@ -148,7 +138,7 @@ def upload_resume(request):
 
         resumes = file_contents_list
 
-        ranked_results = rank_resumes(resumes, job_description)
+        ranked_results = rank_resumes(client, resumes, job_description)
 
         # filter based on threshold
         threshold_slider = request.POST.get("threshold_slider")

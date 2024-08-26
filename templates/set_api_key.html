@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block title %}Home - Resume Analyzer{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h2 class="mt-5">Enter Your OpenAI API Key</h2>
+    <form method="POST">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="api_key">OpenAI API Key</label>
+            <input type="password" class="form-control" id="api_key" name="api_key" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Save API Key</button>
+    </form>
+</div>
+{% endblock %}
