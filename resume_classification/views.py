@@ -43,7 +43,7 @@ def extracttextfromdoc(directory1, category):
             fullText = []
             for para in doc.paragraphs:
                 fullText.append(para.text)
-            print("full txt: ", "\n".join(fullText))
+            # print("full txt: ", "\n".join(fullText))
             file_path1.append("\n".join(fullText).encode('ascii',errors='ignore').decode('utf-8'))
             # file_path1.append((textract.process(os.path.join(directory1, i))).decode('utf-8'))
             category1.append(category)
@@ -372,7 +372,7 @@ def resume_classification(request):
         host = request.POST.get("host")
         # username = request.POST.get("username")
         password = request.POST.get("password")
-        print('%'*50, password)
+        # print('%'*50, password)
         convertpdftodoc(files)
         directory1 = os.path.join(settings.RC_MEDIA_ROOT)
         print(os.listdir(directory1))
@@ -383,9 +383,9 @@ def resume_classification(request):
         data1["ResID"] = ResID1
         # print(data1)
         resume_data = cleandata(data1)
-        print('*'*50)
-        print(host, username, password)
-        print('*'*50)
+        # print('*'*50)
+        # print(host, username, password)
+        # print('*'*50)
         resume_data_test,model_table_exists  = connectvantage(resume_data, host, username, password)
         if model_table_exists == 0:
             msg = "Model table does not exists. Please return to the notebook and Train the model"
@@ -400,9 +400,9 @@ def resume_classification(request):
         # print(tokenize_df)
         # final_predict_df = classifyresume(tokenize_df)
         final_predict_df = classifyresume_sql(tokenize_df)
-        print(final_predict_df)
+        # print(final_predict_df)
         eval_df = evaluatemodel_sql(final_predict_df)
-        print(eval_df)
+        # print(eval_df)
         df = final_predict_df.to_pandas()
         html_table = df.to_html(index=False)
         eval_df_pd = eval_df.to_pandas()
